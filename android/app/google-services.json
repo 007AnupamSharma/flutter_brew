@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "65827767900",
+    "project_id": "anupam-brew-crew",
+    "storage_bucket": "anupam-brew-crew.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65827767900:android:a1feeb1add31b1faa60899",
+        "android_client_info": {
+          "package_name": "com.example.flutter_brew"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9xeS9kVLFez5qS3xvHjTtNu0Uu0AslQw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
