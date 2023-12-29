@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_brew/services/auth.dart';
 
-class SignIn extends StatefulWidget {
-
+class Register extends StatefulWidget {
+  
   final Function? toogleView;
-  SignIn({@required this.toogleView});
+  Register({this.toogleView});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
-
 
   String email = '';
   String password = '';
+  String error = '';
+  final _formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
 
@@ -25,22 +27,25 @@ class _SignInState extends State<SignIn> {
       appBar: AppBar(
         backgroundColor: Colors.brown[300],
         elevation: 0.0,
-        title: Text('Sign in to Brew Crew'),
+        title: Text('Sign up to Brew Crew'),
         actions: [
           TextButton.icon(onPressed: (){
             widget.toogleView!();
-          }, icon: Icon(Icons.person), label: Text("Register"))
+          }, icon: Icon(Icons.person), label: Text("Sign In"))
         ],
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         child: Form(
+          key: _formkey,
             child: Column(
           children: [
             SizedBox(
               height: 20,
             ),
             TextFormField(
+              decoration: InputDecoration(hintText: "Enter the Email"),
+              validator: (value) => value!.isEmpty ? 'Enter the email' : null,
               onChanged: (val) {
                 setState(() => email = val);
               },
@@ -50,6 +55,8 @@ class _SignInState extends State<SignIn> {
               height: 20.0,
             ),
             TextFormField(
+              decoration: InputDecoration(hintText: "Enter the Password"),
+              validator: (value) => value!.length < 6 ? 'Enter the password 6+ char long ' : null,
               obscureText: true,
               onChanged: (val) {setState(() => password = val);},
             ),
@@ -62,14 +69,23 @@ class _SignInState extends State<SignIn> {
                 padding: MaterialStateProperty.all(
                     EdgeInsets.symmetric(vertical: 20, horizontal: 40)),
               ),
-              onPressed: () {
-                print("Email : $email \n Password : $password");
+              onPressed: () async {
+                if(_formkey.currentState!.validate()){
+                  dynamic result = await _auth.registerWithEmail(email, password);
+                  if(result == null){
+                    setState(() => error = 'please supply valid email!!');
+                  }else{
+
+                  }
+                }
               },
               child: Text(
-                "Sign in",
+                "Register",
                 style: TextStyle(color: Colors.white),
               ),
             ),
+            SizedBox(height: 12.0,),
+            Text(error, style: TextStyle(color: Colors.pink, fontSize: 14.0),)
           ],
         )),
       ),
